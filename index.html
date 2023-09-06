@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Klondike Solitaire</title>
+  <link href="css/card-library/css/cardstarter.css" rel="stylesheet" type="text/css" />
+  <link href="css/main.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+  <!-- Toolbar -->
+  <div class="toolbar-wrapper">
+    <header class="toolbar">
+      <div class="logo">Logo</div>
+      <p class="timer-p">00:00:00</p>
+      <p class="score-p">Score: <span class="score-span">0</span></p>
+      <p class="moves-p">Moves: <span class="moves-span">0</span></p>
+      <button class="close-btn">✕</button>
+    </header>
+  </div>
+
+  <!-- Main game canvas -->
+  <main id="solitaire-container">
+
+    <!-- Top piles -->
+    <div class="stock-waste-foundation">
+      <!-- Stock and waste piles -->
+      <div class="stock-waste">
+        <div class="pile stock-pile"></div>
+        <div class="pile waste-pile"></div>
+      </div>
+
+      <!-- Foundation piles -->
+      <div class="foundation">
+        <div class="pile pile-hearts"></div>
+        <div class="pile pile-diamonds"></div>
+        <div class="pile pile-clubs"></div>
+        <div class="pile pile-spades"></div>
+      </div>
+    </div>
+
+    <!-- Tableau piles -->
+    <div class="tableau">
+      <div class="pile"></div>
+      <div class="pile"></div>
+      <div class="pile"></div>
+      <div class="pile"></div>
+      <div class="pile"></div>
+      <div class="pile"></div>
+      <div class="pile"></div>
+    </div>
+
+  </main>
+
+  <div class="footer-wrapper">
+    <footer id="footer">
+      <a href="#" class="btn help-btn"><span>⚠</span> Help</a>
+      <a href="#" class="btn new-btn"><span>☆</span> New</a>
+    </footer>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+
+</html>

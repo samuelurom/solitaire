@@ -2,31 +2,142 @@
   box-sizing: border-box;
 }
 
+:root {
+  --accent: #34A249;
+  --dark-accent: #2b7b3b;
+  --dark: #313131;
+}
+
 body {
+  position: relative;
   height: 100vh;
   font-family: sans-serif;
+  background-color: var(--accent);
+  margin: 0;
 }
 
-.card-container {
+#solitaire-container, .toolbar, .footer, footer {
+  max-width: 660px;
+  margin: 0 auto;
+}
+
+.toolbar-wrapper {
+  background-color: var(--dark);
+}
+
+.toolbar {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  border: 4px dotted grey;
-  padding: 10px;
+  justify-content: space-between;
+  align-items: center;
+  color: #aaa;
 }
 
-button {
-  display: block;
-  margin: 10px auto;
-  padding: 10px;
-  font-size: 16px;
-  color: grey;
-  border: 1px solid grey;
+.timer-p, .score-span, .moves-span {
+  color: #fff;
+}
+
+.close-btn {
+  background-color: transparent;
+  font-size: 1.5rem;
+  color: #fff;
+  border: 0;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  color: #aaa;
+}
+
+.card {
+  transform: scale(1.2);
+}
+
+.stock-waste-foundation, .stock-waste, .foundation, .tableau {
+  width: 100%;
+  display: grid;
+  gap: 20px;
+}
+
+.stock-waste-foundation {
+  grid-template-columns: 3fr 4fr;
+  margin: 20px 0;
+  height: 110px;
+}
+
+.stock-waste {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.foundation {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.foundation .pile {
+  background-color: var(--dark-accent);
   border-radius: 4px;
-  outline: none;
 }
 
-button:hover {
-  background-color: grey;
-  color: white;
+.pile-hearts {
+  background-image: url(../images/bg-heart.svg);
+  background-position: center;
+}
+
+.pile-diamonds {
+  background-image: url(../images/bg-diamond.svg);
+  background-position: center;
+}
+
+.pile-clubs {
+  background-image: url(../images/bg-club.svg);
+  background-position: center;
+}
+
+.pile-spades {
+  background-image: url(../images/bg-spade.svg);
+  background-position: center;
+}
+
+.tableau {
+  grid-template-columns: repeat(7, 1fr);
+  margin: 20px 0;
+}
+
+.pile {
+  position: relative;
+}
+
+.footer-wrapper {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 20px;
+  background-color: var(--dark-accent);
+}
+
+#footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#footer a {
+  color: #fff;
+  font-size: 1.8rem;
+  text-decoration: none;
+}
+
+#footer a span {
+  font-size: 2.3rem;
+}
+
+#footer a:hover {
+  color: var(--dark);
+}
+
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
 }
