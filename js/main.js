@@ -23,6 +23,9 @@ const originalDeck = buildOriginalDeck();
 let shuffledDeck = getNewShuffledDeck();
 
 /*----- event listeners -----*/
+function handleSelectCard(e) {
+  console.log(e.target);
+}
 
 /*----- functions -----*/
 function buildOriginalDeck() {
@@ -75,6 +78,11 @@ function dealTableauCards() {
     }
     cardsToDeal++;
   }
+
+  // Add event listeners
+  tableauPiles.forEach((card) =>
+    card.addEventListener("click", handleSelectCard)
+  );
 }
 
 function renderCardInPile(card, pile, topPosition) {
