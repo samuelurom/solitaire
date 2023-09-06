@@ -21,6 +21,8 @@ const originalDeck = buildOriginalDeck();
 
 /*----- app's state (variables) -----*/
 let shuffledDeck = getNewShuffledDeck();
+const timerPara = document.querySelector(".timer-p");
+let seconds = 0;
 
 /*----- event listeners -----*/
 function handleSelectCard(e) {
@@ -103,10 +105,19 @@ function renderStockPile(deck) {
   });
 }
 
+function runTimer() {
+  let time = new Date(seconds * 1000).toISOString().substring(11, 19);
+  seconds++;
+  timerPara.innerText = time;
+}
+
 function initializeGame() {
   dealTableauCards();
   renderStockPile();
 }
 
-// Initialize Game
+/*----- Initialize game -----*/
 initializeGame();
+
+/*----- Start timer -----*/
+setInterval(runTimer, 1000);
