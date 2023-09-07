@@ -56,6 +56,9 @@ function handleCardDropping(e) {
     draggedCard.style.zIndex = "9999";
 
     destinationPile.appendChild(draggedCard);
+
+    // reveal top card in source pile
+    revealTopCard(sourcePile);
   }
 }
 
@@ -101,13 +104,15 @@ function dealTableauCards() {
 
     for (let cardIdx = 0; cardIdx < cardsToDeal; cardIdx++) {
       let card = shuffledDeck.pop();
-      if (cardIdx !== cardsToDeal - 1) {
-        card.face = "back";
-      }
-      renderCardInPile(card, pile, topPosition);
+
+      pile.innerHTML += `<div class="card absolute back ${card.face}" style="top: ${topPosition}px; z-index: ${topPosition}"></div>`;
 
       topPosition += 20;
     }
+
+    // show the topmost card in pile
+    revealTopCard(pile);
+
     cardsToDeal++;
   }
 
@@ -116,19 +121,12 @@ function dealTableauCards() {
   dropCardOnMouseUp(tableauPiles);
 }
 
-function renderCardInPile(card, pile, topPosition) {
-  const cardHtml = `<div class="card absolute ${card.face}" style="top: ${topPosition}px; z-index: ${topPosition}"></div>`;
-  pile.innerHTML += cardHtml;
-}
-
 function renderStockPile(deck) {
-  let stockPile = document.querySelector(".stock-pile");
+  const stockPile = document.querySelector(".stock-pile");
 
   // Render remaining shuffled deck to stock pile
   shuffledDeck.forEach((card) => {
-    card.face = "back";
-
-    const cardHtml = `<div class="card absolute ${card.face}"></div>`;
+    const cardHtml = `<div class="card absolute back ${card.face}"></div>`;
 
     stockPile.innerHTML += cardHtml;
   });
@@ -145,13 +143,18 @@ function calculateTopPosition(destinationPile) {
   return topPosition;
 }
 
+function revealTopCard(pile) {
+  const topCard = pile.lastChild;
+  topCard.classList.contains("back") && topCard.classList.remove("back");
+}
+
 function initializeGame() {
   dealTableauCards();
   renderStockPile();
 }
 
 function runTimer() {
-  let time = new Date(seconds * 1000).toISOString().substring(11, 19);
+  const time = new Date(seconds * 1000).toISOString().substring(11, 19);
   seconds++;
   timerPara.innerText = time;
 }
