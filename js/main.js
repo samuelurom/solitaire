@@ -23,13 +23,43 @@ const originalDeck = buildOriginalDeck();
 let shuffledDeck = getNewShuffledDeck();
 const timerPara = document.querySelector(".timer-p");
 let seconds = 0;
+let draggedCard = null; // hold dragged card
+let sourcePile = null; // hold source pile
 
-/*----- event listeners -----*/
-function handleSelectCard(e) {
-  console.log(e.target);
+/*----- event listener functions -----*/
+function dragCardOnMouseDown(pile) {
+  pile.forEach((card) =>
+    card.addEventListener("mousedown", handleCardDragging)
+  );
 }
 
-/*----- functions -----*/
+function dropCardOnMouseUp(pile) {
+  pile.forEach((card) => card.addEventListener("mouseup", handleCardDropping));
+}
+
+/*----- event handlers -----*/
+function handleCardDragging(e) {
+  draggedCard = e.target;
+  sourcePile = draggedCard.parentElement;
+}
+
+function handleCardDropping(e) {
+  if (draggedCard) {
+    let destinationPile = e.target.parentElement;
+
+    // remove card from source pile
+    sourcePile.removeChild(draggedCard);
+
+    const topPosition = calculateTopPosition(destinationPile);
+
+    draggedCard.style.top = `${topPosition}px`;
+    draggedCard.style.zIndex = "9999";
+
+    destinationPile.appendChild(draggedCard);
+  }
+}
+
+/*----- game functions -----*/
 function buildOriginalDeck() {
   const deck = [];
   // Use nested forEach to generate card objects
@@ -82,13 +112,12 @@ function dealTableauCards() {
   }
 
   // Add event listeners
-  tableauPiles.forEach((card) =>
-    card.addEventListener("click", handleSelectCard)
-  );
+  dragCardOnMouseDown(tableauPiles);
+  dropCardOnMouseUp(tableauPiles);
 }
 
 function renderCardInPile(card, pile, topPosition) {
-  const cardHtml = `<div class="card absolute ${card.face}" style="top: ${topPosition}px; z-index: ${topPosition};"></div>`;
+  const cardHtml = `<div class="card absolute ${card.face}" style="top: ${topPosition}px; z-index: ${topPosition}"></div>`;
   pile.innerHTML += cardHtml;
 }
 
@@ -105,15 +134,26 @@ function renderStockPile(deck) {
   });
 }
 
-function runTimer() {
-  let time = new Date(seconds * 1000).toISOString().substring(11, 19);
-  seconds++;
-  timerPara.innerText = time;
+/*----- Helper functions -----*/
+function calculateTopPosition(destinationPile) {
+  const cardsInPile = destinationPile.childNodes;
+
+  // Set top offset and calculate top position
+  const cardTopOffset = 20;
+  const topPosition = cardsInPile.length * cardTopOffset;
+
+  return topPosition;
 }
 
 function initializeGame() {
   dealTableauCards();
   renderStockPile();
+}
+
+function runTimer() {
+  let time = new Date(seconds * 1000).toISOString().substring(11, 19);
+  seconds++;
+  timerPara.innerText = time;
 }
 
 /*----- Initialize game -----*/
