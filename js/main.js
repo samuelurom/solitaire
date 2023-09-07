@@ -44,8 +44,9 @@ function handleCardDragging(e) {
 }
 
 function handleCardDropping(e) {
-  if (draggedCard) {
+  if (draggedCard && draggedCard !== e.target) {
     let destinationPile = e.target.parentElement;
+    emptyPileCheck(destinationPile);
 
     // remove card from source pile
     sourcePile.removeChild(draggedCard);
@@ -59,6 +60,8 @@ function handleCardDropping(e) {
 
     // reveal top card in source pile
     revealTopCard(sourcePile);
+
+    emptyPileCheck(sourcePile);
   }
 }
 
@@ -147,6 +150,21 @@ function revealTopCard(pile) {
   const topCard = pile.lastChild;
   if (pile.childNodes.length > 0) {
     topCard.classList.contains("back") && topCard.classList.remove("back");
+  }
+}
+
+function emptyPileCheck(pile, e) {
+  const cardsInPile = pile.childNodes;
+  const cardPlaceholder = pile.querySelector(".card-placeholder");
+
+  if (cardsInPile.length === 0) {
+    const cardPlaceholderHtml = '<div class="card-placeholder"></div>';
+    pile.innerHTML += cardPlaceholderHtml;
+  }
+
+  if (cardsInPile.length === 1 && cardPlaceholder) {
+    // confirm that cardPlaceholder exists within the pile then remove it
+    pile.removeChild(cardPlaceholder);
   }
 }
 
