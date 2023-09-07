@@ -145,7 +145,9 @@ function calculateTopPosition(destinationPile) {
 
 function revealTopCard(pile) {
   const topCard = pile.lastChild;
-  topCard.classList.contains("back") && topCard.classList.remove("back");
+  if (pile.childNodes.length > 0) {
+    topCard.classList.contains("back") && topCard.classList.remove("back");
+  }
 }
 
 function initializeGame() {

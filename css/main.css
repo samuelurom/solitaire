@@ -109,6 +109,13 @@ body {
   margin: 20px 0;
 }
 
+.card-placeholder {
+  background-color: var(--dark-accent);
+  width: 76px;
+  height: 105px;
+  border-radius: 4px;
+}
+
 .pile {
   position: relative;
 }
