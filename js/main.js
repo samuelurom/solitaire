@@ -25,6 +25,7 @@ const timerPara = document.querySelector(".timer-p");
 let seconds = 0;
 let draggedCard = null; // hold dragged card
 let sourcePile = null; // hold source pile
+let wastePileCards = [];
 
 /*----- event handlers -----*/
 function handleCardDragging(e) {
@@ -49,7 +50,6 @@ function handleTableauCardDropping(e) {
 
     // reveal top card in source pile
     revealTopCard(sourcePile);
-
     emptyPileCheck(sourcePile);
   }
 }
@@ -75,6 +75,12 @@ function handleFoundationCardDropping(e) {
     sourcePile.parentElement.className !== "foundation" &&
       emptyPileCheck(sourcePile);
   }
+}
+
+function handleStockDeal(e) {
+  sourcePile = e.target.parentElement;
+  const topCard = e.target;
+  renderWastePile(topCard);
 }
 
 /*----- game functions -----*/
@@ -161,6 +167,19 @@ function setupFoundationPiles() {
   );
 }
 
+function renderWastePile(card) {
+  // reset card position
+  card.style.top = "0";
+
+  const wastePile = document.querySelector(".waste-pile");
+
+  wastePile.appendChild(card);
+  revealTopCard(wastePile);
+
+  // add event listener to the top card
+  wastePile.lastChild.addEventListener("mousedown", handleCardDragging);
+}
+
 /*----- Helper functions -----*/
 function calculateTopPosition(destinationPile) {
   const cardsInPile = destinationPile.childNodes;
@@ -198,9 +217,14 @@ function initializeGame() {
   dealTableauCards();
   renderStockPile();
   setupFoundationPiles();
+
+  const stockPile = document.querySelectorAll(".stock-pile .card");
+
+  stockPile.forEach((card) => card.addEventListener("click", handleStockDeal));
 }
 
 function runTimer() {
+  // cimer in ISO format
   const time = new Date(seconds * 1000).toISOString().substring(11, 19);
   seconds++;
   timerPara.innerText = time;
