@@ -26,24 +26,13 @@ let seconds = 0;
 let draggedCard = null; // hold dragged card
 let sourcePile = null; // hold source pile
 
-/*----- event listener functions -----*/
-function dragCardOnMouseDown(pile) {
-  pile.forEach((card) =>
-    card.addEventListener("mousedown", handleCardDragging)
-  );
-}
-
-function dropCardOnMouseUp(pile) {
-  pile.forEach((card) => card.addEventListener("mouseup", handleCardDropping));
-}
-
 /*----- event handlers -----*/
 function handleCardDragging(e) {
   draggedCard = e.target;
   sourcePile = draggedCard.parentElement;
 }
 
-function handleCardDropping(e) {
+function handleTableauCardDropping(e) {
   if (draggedCard && draggedCard !== e.target) {
     let destinationPile = e.target.parentElement;
     emptyPileCheck(destinationPile);
@@ -62,6 +51,29 @@ function handleCardDropping(e) {
     revealTopCard(sourcePile);
 
     emptyPileCheck(sourcePile);
+  }
+}
+
+function handleFoundationCardDropping(e) {
+  if (draggedCard) {
+    let destinationPile = e.target;
+
+    if (destinationPile.parentElement.className !== "foundation") {
+      destinationPile = e.target.parentElement;
+    }
+
+    // Reset dragged card positions
+    draggedCard.style.top = "0"; // Set top position to 0
+    draggedCard.style.zIndex = "1"; // Set zIndex to 1 (or any appropriate value)
+
+    destinationPile.appendChild(draggedCard);
+
+    destinationPile.lastChild.addEventListener("mousedown", handleCardDragging);
+
+    // reveal top card in source pile and check for empty piles
+    revealTopCard(sourcePile);
+    sourcePile.parentElement.className !== "foundation" &&
+      emptyPileCheck(sourcePile);
   }
 }
 
@@ -120,8 +132,13 @@ function dealTableauCards() {
   }
 
   // Add event listeners
-  dragCardOnMouseDown(tableauPiles);
-  dropCardOnMouseUp(tableauPiles);
+  tableauPiles.forEach((card) =>
+    card.addEventListener("mousedown", handleCardDragging)
+  );
+
+  tableauPiles.forEach((card) =>
+    card.addEventListener("mouseup", handleTableauCardDropping)
+  );
 }
 
 function renderStockPile(deck) {
@@ -133,6 +150,15 @@ function renderStockPile(deck) {
 
     stockPile.innerHTML += cardHtml;
   });
+}
+
+function setupFoundationPiles() {
+  const foundationPiles = document.querySelectorAll(".foundation .pile");
+
+  // Add event listeners
+  foundationPiles.forEach((pile) =>
+    pile.addEventListener("mouseup", handleFoundationCardDropping)
+  );
 }
 
 /*----- Helper functions -----*/
@@ -171,6 +197,7 @@ function emptyPileCheck(pile, e) {
 function initializeGame() {
   dealTableauCards();
   renderStockPile();
+  setupFoundationPiles();
 }
 
 function runTimer() {
