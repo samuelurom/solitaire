@@ -25,7 +25,6 @@ const timerPara = document.querySelector(".timer-p");
 let seconds = 0;
 let draggedCard = null; // hold dragged card
 let sourcePile = null; // hold source pile
-let wastePileCards = [];
 
 /*----- event handlers -----*/
 function handleCardDragging(e) {
@@ -81,6 +80,23 @@ function handleStockDeal(e) {
   sourcePile = e.target.parentElement;
   const topCard = e.target;
   renderWastePile(topCard);
+
+  // delay checking if stockpile is empty
+  setTimeout(() => isStockPileEmpty(), 0);
+}
+
+function handleRestockWastePile() {
+  const stockPile = document.querySelector(".stock-pile");
+  const wastePile = document.querySelector(".waste-pile");
+
+  if (stockPile.childNodes.length === 0 && wastePile.childNodes.length !== 0) {
+    const wastePileCards = Array.from(wastePile.childNodes);
+
+    wastePileCards.forEach((card) => {
+      card.classList.add("back");
+      stockPile.appendChild(card);
+    });
+  }
 }
 
 /*----- game functions -----*/
@@ -180,6 +196,14 @@ function renderWastePile(card) {
   wastePile.lastChild.addEventListener("mousedown", handleCardDragging);
 }
 
+function isStockPileEmpty() {
+  const stockPile = document.querySelector(".stock-pile");
+
+  if (stockPile.childNodes.length === 0) {
+    stockPile.addEventListener("click", handleRestockWastePile);
+  }
+}
+
 /*----- Helper functions -----*/
 function calculateTopPosition(destinationPile) {
   const cardsInPile = destinationPile.childNodes;
@@ -198,7 +222,7 @@ function revealTopCard(pile) {
   }
 }
 
-function emptyPileCheck(pile, e) {
+function emptyPileCheck(pile) {
   const cardsInPile = pile.childNodes;
   const cardPlaceholder = pile.querySelector(".card-placeholder");
 

@@ -72,8 +72,11 @@ body {
 }
 
 .stock-pile {
+  background-image: url('../images/recall-stockpile.svg');
+  background-size: cover;
   background-color: var(--dark-accent);
   border-radius: 4px;
+  cursor: pointer;
 }
 
 .stock-waste {
