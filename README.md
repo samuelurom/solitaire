@@ -2,13 +2,17 @@
 
 ![Screenshot](./images/screenshot.png)
 
-This is a simple implementation of the classic solitaire card game using HTML, CSS, and JavaScript. In this game, your goal is to move all the cards to the foundation piles ~~following the traditional solitaire rules~~.
+This is a simple implementation of the classic solitaire card game. In this game, your goal is to move all the cards to the foundation piles ~~following the traditional solitaire rules~~.
 
-### Front-end technologies
+## Front-end Technologies Used
 
 - HTML
 - CSS
 - Vanilla JavaScript
+
+## CI-CD
+
+GitHub/GitHub Pages
 
 ## Features
 
@@ -37,8 +41,26 @@ This is a simple implementation of the classic solitaire card game using HTML, C
 
 7. **Winning**: You win when all cards are successfully moved to the foundation piles.
 
-## How to Play
+## Play Online
 
 Visit this link to enjoy free online gameplay:
 
 https://samuelurom.github.io/solitaire/
+
+## Known Issues
+
+Currently, the game has a simplified winning condition where you automatically win when all cards are moved to the foundation piles. This will be updated with standard solitaire rules in the future.
+
+## Future Improvements
+
+- Implement standard solitaire rules with restrictions on moving cards.
+- Add options for customizing card backs and themes.
+- Implement more advanced features like hints and undo.
+
+## Original Creator
+
+- Samuel Urom
+
+## Credit
+
+- [Your name here if you contribute]
