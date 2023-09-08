@@ -1,7 +1,5 @@
 # Solitaire Card Game (Cheat Version)
 
-![Screenshot](./images/screenshot.png)
-
 This is a simple implementation of the classic solitaire card game. In this game, your goal is to move all the cards to the foundation piles ~~following the traditional solitaire rules~~.
 
 ## Front-end Technologies Used
@@ -13,6 +11,14 @@ This is a simple implementation of the classic solitaire card game. In this game
 ## CI-CD
 
 GitHub/GitHub Pages
+
+## Wireframe
+
+![Wireframe](./concept-draft.jpeg)
+
+## Screenshot
+
+![Screenshot](./images/screenshot.png)
 
 ## Features
 
