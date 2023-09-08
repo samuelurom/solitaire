@@ -56,6 +56,9 @@ function handleTableauCardDropping(e) {
     // update move count and score
     updateMovesCount();
     updateScore(2);
+
+    // check if game is won
+    isGameWon();
   }
 }
 
@@ -83,6 +86,9 @@ function handleFoundationCardDropping(e) {
     // update move count and score
     updateMovesCount();
     updateScore(4);
+
+    // check if game is won
+    isGameWon();
   }
 }
 
@@ -276,6 +282,46 @@ function updateScore(points) {
   scoreCount += points;
   const scoreCountSpan = document.querySelector(".score-span");
   scoreCountSpan.textContent = scoreCount;
+}
+
+function isGameWon() {
+  // get number of cards in foundation piles
+  const pileOfHearts = document.querySelector(".pile-hearts").childElementCount;
+  const pileOfDiamonds =
+    document.querySelector(".pile-diamonds").childElementCount;
+  const pileOfClubs = document.querySelector(".pile-clubs").childElementCount;
+  const pileOfSpades = document.querySelector(".pile-spades").childElementCount;
+
+  // check if foundation pile has all cards
+  const totalFoundationCards =
+    pileOfHearts + pileOfDiamonds + pileOfClubs + pileOfSpades;
+
+  if (totalFoundationCards === 52) {
+    const currTimer = document.querySelector(".timer-p").innerText;
+    const currScore = document.querySelector(".score-span").innerText;
+    const currMoves = document.querySelector(".moves-span").innerText;
+
+    function showVictoryModal(score, moves, time) {
+      const modal = document.querySelector("#victory-modal");
+      const modalScore = document.querySelector("#modal-score");
+      const modalMoves = document.querySelector("#modal-moves");
+      const modalTime = document.querySelector("#modal-time");
+
+      modalScore.textContent = score;
+      modalMoves.textContent = moves;
+      modalTime.textContent = time;
+
+      modal.style.display = "block";
+
+      // Close the modal when the close button is clicked
+      const closeModal = document.getElementById("#close-modal");
+      closeModal.onclick = function () {
+        modal.style.display = "none";
+      };
+    }
+
+    showVictoryModal(currScore, currMoves, currTimer);
+  }
 }
 
 /*----- Initialize game -----*/
