@@ -23,6 +23,8 @@ const originalDeck = buildOriginalDeck();
 let shuffledDeck = getNewShuffledDeck();
 const timerPara = document.querySelector(".timer-p");
 let seconds = 0;
+let scoreCount = 0;
+let movesCount = 0;
 let draggedCard = null; // hold dragged card
 let sourcePile = null; // hold source pile
 
@@ -50,6 +52,10 @@ function handleTableauCardDropping(e) {
     // reveal top card in source pile
     revealTopCard(sourcePile);
     emptyPileCheck(sourcePile);
+
+    // update move count and score
+    updateMovesCount();
+    updateScore(2);
   }
 }
 
@@ -73,6 +79,10 @@ function handleFoundationCardDropping(e) {
     revealTopCard(sourcePile);
     sourcePile.parentElement.className !== "foundation" &&
       emptyPileCheck(sourcePile);
+
+    // update move count and score
+    updateMovesCount();
+    updateScore(4);
   }
 }
 
@@ -226,7 +236,9 @@ function emptyPileCheck(pile) {
   const cardsInPile = pile.childNodes;
   const cardPlaceholder = pile.querySelector(".card-placeholder");
 
-  if (cardsInPile.length === 0) {
+  const isWastPile = sourcePile.classList.contains("waste-pile");
+
+  if (cardsInPile.length === 0 && !isWastPile) {
     const cardPlaceholderHtml = '<div class="card-placeholder"></div>';
     pile.innerHTML += cardPlaceholderHtml;
   }
@@ -252,6 +264,18 @@ function runTimer() {
   const time = new Date(seconds * 1000).toISOString().substring(11, 19);
   seconds++;
   timerPara.innerText = time;
+}
+
+function updateMovesCount() {
+  movesCount++;
+  const movesCountSpan = document.querySelector(".moves-span");
+  movesCountSpan.textContent = movesCount;
+}
+
+function updateScore(points) {
+  scoreCount += points;
+  const scoreCountSpan = document.querySelector(".score-span");
+  scoreCountSpan.textContent = scoreCount;
 }
 
 /*----- Initialize game -----*/
